@@ -1,0 +1,1 @@
+class Food extends Pizza{
