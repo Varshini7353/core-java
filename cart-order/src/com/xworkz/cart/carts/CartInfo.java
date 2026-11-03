@@ -3,7 +3,7 @@ package com.xworkz.cart.carts;
 public interface CartInfo {
 
 
-        int addOrder(CartOrder order);
+        boolean addOrder(CartOrder order);
 
         void getOrders();
 

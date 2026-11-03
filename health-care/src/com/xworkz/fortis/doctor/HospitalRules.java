@@ -8,5 +8,8 @@ public interface HospitalRules {
 
     Doctor getDoctorById(int id);
 
-    void getDoctorsInfo();
+
+    boolean updateDoctorFeesByName(int newFees,String doctorName);
+
+    String[] getSpecilizationbyDoctoryName(String name);
 }

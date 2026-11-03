@@ -1,5 +1,6 @@
 package com.xworkz.station.policestation;
 
+import com.xworkz.station.exception.*;
 import com.xworkz.station.officer.PoliceOfficer;
 import com.xworkz.station.officer.PoliceStation;
 
@@ -14,28 +15,54 @@ public class PoliceStationImpl implements PoliceStation {
 
     @Override
     public int addPoliceOfficer(PoliceOfficer policeOfficer) {
+        boolean isAdded=false;
 
-        if (policeOfficer == null) {
-            return 0;
-        }
+        boolean isPoliceIdValid=false;
+        boolean isOfficerNameValid=false;
+        boolean isDepartmentValid=false;
+        boolean isBadgeNumberValid=false;
+        boolean isRankValid=false;
+        boolean isOnDutyValid=false;
+        boolean isPoliceOfficerAgeValid=false;
 
-        boolean policeIdAdded = policeOfficer.getPoliceId() > 0;
+        int policeId=policeOfficer.getPoliceId();
+        if(policeId>0){
+            isPoliceIdValid=true;
+        }else System.out.println("Invalid policeId");
 
-        boolean policeNameAdded = policeOfficer.getOfficerName() != null
-                && !policeOfficer.getOfficerName().trim().isEmpty();
+        String officerName=policeOfficer.getOfficerName();
+        if(officerName!=null && !officerName.isEmpty()){
+            isOfficerNameValid=true;
+        }else System.out.println("Invalid officerName");
 
-        boolean policeDepartmentAdded = policeOfficer.getDepartment() != null
-                && !policeOfficer.getDepartment().trim().isEmpty();
+        String department=policeOfficer.getDepartment();
+        if(department!=null && !department.isEmpty()){
+            isDepartmentValid=true;
+        }else System.out.println("Invalid department");
 
-        boolean badgeNumberAdded = policeOfficer.getBadgeNumber() != null
-                && !policeOfficer.getBadgeNumber().trim().isEmpty();
+        String badgeNumber=policeOfficer.getBadgeNumber();
+        if(badgeNumber!=null && !badgeNumber.isEmpty()){
+            isBadgeNumberValid=true;
+        }else System.out.println("Invalid badgeNumber");
 
-        boolean policeRankAdded = policeOfficer.getRank() > 0;
+        int rank =policeOfficer.getRank();
+        if(rank>0){
+            isRankValid=true;
+        }else System.out.println("Invalid Rank");
 
-        boolean policeOfficerAgeValid = policeOfficer.getPoliceOfficerAge() > 0;
+        boolean onDuty=policeOfficer.getOnDuty();
+        if(onDuty==true){
+            isOnDutyValid=true;
+        }else System.out.println("Invalid onduty");
 
-        if (policeIdAdded && policeNameAdded && policeDepartmentAdded
-                && badgeNumberAdded && policeRankAdded && policeOfficerAgeValid) {
+        int policeOfficerAge=policeOfficer.getPoliceOfficerAge();
+        if(policeOfficerAge>0){
+            isPoliceOfficerAgeValid=true;
+        }else System.out.println("Invalid officerAge");
+
+
+        if(isPoliceIdValid && isOfficerNameValid && isDepartmentValid && isBadgeNumberValid
+        && isRankValid && isOnDutyValid && isPoliceOfficerAgeValid){
 
             if (index < this.policeOfficer.length) {
                 this.policeOfficer[index++] = policeOfficer;
@@ -53,61 +80,118 @@ public class PoliceStationImpl implements PoliceStation {
 
     @Override
     public void getPoliceOfficer() {
-        for (PoliceOfficer officer : policeOfficer) {
-            if (officer != null) {
-                System.out.println(officer);
-            } else {
-                System.out.println("Police officer not added");
+
+        try {
+            for (PoliceOfficer officer : policeOfficer) {
+                if (officer != null) {
+                    System.out.println(officer);
+                } else {
+                    System.out.println("Police officer not added");
+                }
             }
+
+            if (policeOfficer == null) {
+                PoliceOfficerInvalidException exception = new PoliceOfficerInvalidException("Sorry invalid officers");
+                throw exception;
+            }
+        }catch (PoliceOfficerInvalidException qq){
+            qq.printStackTrace();
         }
     }
 
     @Override
     public String getPoliceOfficerNameByPoliceOfficerId(int policeOfficerId) {
-        for (PoliceOfficer officer : policeOfficer) {
-            if (officer != null && officer.getPoliceId() == policeOfficerId) {
-                return officer.getOfficerName();
+
+        try {
+            for (PoliceOfficer officer : policeOfficer) {
+                if (officer != null && officer.getPoliceId() == policeOfficerId) {
+                    return officer.getOfficerName();
+                }
             }
+
+            if (policeOfficer == null) {
+                PoliceOfficerNameInvalidByIdException exception = new PoliceOfficerNameInvalidByIdException("Invalid Name");
+                throw exception;
+            }
+        }catch (PoliceOfficerNameInvalidByIdException q){
+            q.printStackTrace();
         }
         return null;
     }
 
     @Override
     public String getPoliceOfficerDepartmentByPoliceOfficerName(String policeOfficerName) {
-        for (PoliceOfficer officer : policeOfficer) {
-            if (officer != null && officer.getOfficerName().equalsIgnoreCase(policeOfficerName)) {
-                return officer.getDepartment();
+
+        try {
+            for (PoliceOfficer officer : policeOfficer) {
+                if (officer != null && officer.getOfficerName().equalsIgnoreCase(policeOfficerName)) {
+                    return officer.getDepartment();
+                }
             }
+
+            if (policeOfficer == null) {
+                PoliceOfficerDeptInvalidByNameException exception = new PoliceOfficerDeptInvalidByNameException("Invalid dept");
+                throw exception;
+            }
+        }catch (PoliceOfficerDeptInvalidByNameException a){
+            a.printStackTrace();
         }
         return null;
     }
 
     @Override
     public String getPoliceOfficerBadgeNumberByPoliceOfficerRank(int policeOfficerRank) {
-        for (PoliceOfficer officer : policeOfficer) {
-            if (officer != null && officer.getRank() == policeOfficerRank) {
-                return officer.getBadgeNumber();
+
+        try {
+            for (PoliceOfficer officer : policeOfficer) {
+                if (officer != null && officer.getRank() == policeOfficerRank) {
+                    return officer.getBadgeNumber();
+                }
             }
+            if (policeOfficer == null) {
+                PoliceOfficerInvalidBadgeNoByRank exception = new PoliceOfficerInvalidBadgeNoByRank("Invalid BadgeNo");
+                throw exception;
+            }
+        }catch (PoliceOfficerInvalidBadgeNoByRank d){
+            d.printStackTrace();
         }
         return null;
     }
 
     @Override
     public boolean getPoliceOfficerOnDutyByPoliceOfficerAge(int policeOfficerAge) {
-        for (PoliceOfficer officer : policeOfficer) {
-            if (officer != null && officer.getPoliceOfficerAge() == policeOfficerAge) {
-                return officer.getOnDuty();
+        try {
+            for (PoliceOfficer officer : policeOfficer) {
+                if (officer != null && officer.getPoliceOfficerAge() == policeOfficerAge) {
+                    return officer.getOnDuty();
+                }
             }
+
+            if (policeOfficer == null) {
+                PoliceOfficerInvalidOnDutyByAge exception = new PoliceOfficerInvalidOnDutyByAge("Invalid Onduty");
+                throw exception;
+            }
+        }catch (PoliceOfficerInvalidOnDutyByAge ww){
+            ww.printStackTrace();
         }
         return false;
     }
 
     @Override
     public int getPoliceOfficerRankBypoliceOfficerId(int policeOfficerId) {
-        for (PoliceOfficer officer : policeOfficer) {
-            if (officer != null && officer.getPoliceId() == policeOfficerId) {
-                return officer.getRank();
+
+        try {
+            for (PoliceOfficer officer : policeOfficer) {
+                if (officer != null && officer.getPoliceId() == policeOfficerId) {
+                    return officer.getRank();
+                }
             }
+            if (policeOfficer == null) {
+                PoliceOfficerInvalidRankById exception = new PoliceOfficerInvalidRankById("Invalid Rank");
+                throw exception;
+            }
+        }catch (PoliceOfficerInvalidRankById oo){
+            oo.printStackTrace();
         }
         return 0;
     }
@@ -116,15 +200,19 @@ public class PoliceStationImpl implements PoliceStation {
     public void getPoliceOfficerNameByPoliceOfficerRank(int rank) {
         boolean found = false;
 
-        for (PoliceOfficer officer : policeOfficer) {
-            if (officer != null && officer.getRank() == rank) {
-                System.out.println(officer.getOfficerName());
-                found = true;
+        try {
+            for (PoliceOfficer officer : policeOfficer) {
+                if (officer != null && officer.getRank() == rank) {
+                    System.out.println(officer.getOfficerName());
+                    found = true;
+                }
             }
-        }
-
-        if (!found) {
-            System.out.println("No police officer found for this rank");
+            if (policeOfficer == null) {
+                PoliceOfficerInvalidNameByRank exception = new PoliceOfficerInvalidNameByRank("Invalid Name");
+                throw exception;
+            }
+        }catch (PoliceOfficerInvalidNameByRank vv){
+            vv.printStackTrace();
         }
     }
 }

@@ -19,4 +19,6 @@ public interface ProductsInfo {
     void getProductsByPrice(double price);
 
     void getProductsByDiscount(double discount);
+
+    boolean updatePriceByName(double newPrice,String productName);
 }

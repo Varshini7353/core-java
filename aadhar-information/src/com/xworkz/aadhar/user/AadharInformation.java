@@ -3,7 +3,7 @@ package com.xworkz.aadhar.user;
 public interface AadharInformation {
 
 
-        int addAadhaarUser(AadhaarUser user);
+        boolean addAadhaarUser(AadhaarUser user);
 
         void getAadhaarUsers();
 
@@ -16,4 +16,6 @@ public interface AadharInformation {
         long getMobileNumberByAadhaarNumber(String aadhaarNumber);
 
         String getDateOfBirthByUserName(String userName);
+
+        boolean updateMobileNumberByUserName(long newMobileNo,String userName);
     }
